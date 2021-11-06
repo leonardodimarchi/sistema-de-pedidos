@@ -1,10 +1,10 @@
 package pedidos.ac2;
 
 public class Produto {
-    public String nome;
-    public String descricao;
-    public float valorUnitario;
-    public Fornecedor fornecedor;
+    private String nome;
+    private String descricao;
+    private float valorUnitario;
+    private Fornecedor fornecedor;
 
     // Constructors
 

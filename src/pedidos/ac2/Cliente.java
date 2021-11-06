@@ -1,8 +1,10 @@
 package pedidos.ac2;
 
 public class Cliente {
-    public String nome;
-    public String email;
+    private String nome;
+    private String email;
+
+    // Constructors
 
     public Cliente(String nome, String email) {
         this.nome = nome;
@@ -14,9 +16,7 @@ public class Cliente {
         this.email = "";
     }
 
-
-    // codes after here
-
+    // Getters e Setters
 
     public String getNome() {
         return nome;

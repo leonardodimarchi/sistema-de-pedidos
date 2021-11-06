@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientePessoaFisica extends Cliente {
-    public String cpf;
-    public int qtdMaxParcelamentoPedido;
-    public List<Pedido> pedidos;
+    private String cpf;
+    private int qtdMaxParcelamentoPedido;
+    private List<Pedido> pedidos;
 
     // Constructors
 

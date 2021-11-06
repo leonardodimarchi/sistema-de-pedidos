@@ -1,9 +1,9 @@
 package pedidos.ac2;
 
 public class ItemDePedido {
-    public int quantidade;
-    public float valorTotal;
-    public Produto produto;
+    private int quantidade;
+    private float valorTotal;
+    private Produto produto;
 
     // Constructors
 

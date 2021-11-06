@@ -1,8 +1,8 @@
 package pedidos.ac2;
 
 public class Fornecedor {
-    public String cnpj;
-    public String nome;
+    private String cnpj;
+    private String nome;
 
     // Constructors
 

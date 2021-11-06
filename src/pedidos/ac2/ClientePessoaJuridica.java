@@ -1,8 +1,8 @@
 package pedidos.ac2;
 
 public class ClientePessoaJuridica extends Cliente {
-    public String cnpj;
-    public int prazoMaxFaturamentoPedido;
+    private String cnpj;
+    private int prazoMaxFaturamentoPedido;
 
     // Constructors
 

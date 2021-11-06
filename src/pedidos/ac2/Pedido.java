@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 public class Pedido {
-    public List<ItemDePedido> itensDePedido;
-    public String identificador;
-    public Date data;
-    public float valorTotal;
-    public String cpf;
-    public boolean estaPago;
+    private List<ItemDePedido> itensDePedido;
+    private String identificador;
+    private Date data;
+    private float valorTotal;
+    private Cliente cliente;
+    private boolean estaPago;
 
     // Constructors
 
@@ -19,7 +19,6 @@ public class Pedido {
         this.identificador = "";
         this.data = new Date();
         this.valorTotal = 0;
-        this.cpf = "";
         this.estaPago = false;
     }
 
@@ -27,13 +26,13 @@ public class Pedido {
                   String identificador,
                   Date data,
                   float valorTotal,
-                  String cpf,
+                  Cliente cliente,
                   boolean estaPago) {
         this.itensDePedido = itensDePedido;
         this.identificador = identificador;
         this.data = data;
         this.valorTotal = valorTotal;
-        this.cpf = cpf;
+        this.cliente = cliente;
         this.estaPago = estaPago;
     }
 
@@ -71,12 +70,12 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
-    public String getCpf() {
-        return cpf;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public boolean estaPago() {
