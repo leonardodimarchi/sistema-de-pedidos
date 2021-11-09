@@ -13,6 +13,16 @@ public class Fornecedor {
         this.nome = nome;
     }
 
+    // Metodos
+
+    public void imprimir() {
+        String dados =
+                "\nCNPJ: " + this.cnpj +
+                "\nNome: " + this.nome;
+
+        System.out.println(dados);
+    }
+
     // Getters e Setters
 
     public String getCnpj() {

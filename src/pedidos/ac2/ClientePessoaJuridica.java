@@ -16,6 +16,18 @@ public class ClientePessoaJuridica extends Cliente {
         this.prazoMaxFaturamentoPedido = 0;
     }
 
+    // Metodos
+
+    @Override
+    protected void imprimir() {
+        super.imprimir();
+        String dados =
+                "\nCPF: " + this.cnpj +
+                "\nQuantidade maxima de parcelamento de pedidos: " + this.prazoMaxFaturamentoPedido;
+
+        System.out.println(dados);
+    }
+
     // Getters e Setters
 
     public String getCnpj() {

@@ -12,10 +12,27 @@ public class ItemDePedido {
         this.valorTotal = 0;
     }
 
+    public ItemDePedido(int quantidade, Produto produto) {
+        this.quantidade = quantidade;
+        this.produto = produto;
+        this.valorTotal = produto.getValorUnitario() * quantidade;
+    }
+
     public ItemDePedido(int quantidade, float valorTotal, Produto produto) {
         this.quantidade = quantidade;
         this.valorTotal = valorTotal;
         this.produto = produto;
+    }
+
+    // Metodos
+
+    public void imprimir() {
+        String dados =
+                "\nQuantidade: " + this.quantidade +
+                "\nValor total: " + this.valorTotal +
+                "\nProduto: " + this.produto.getNome();
+
+        System.out.println(dados);
     }
 
     // Getters e Setters

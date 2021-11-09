@@ -16,6 +16,16 @@ public class Cliente {
         this.email = "";
     }
 
+    // Metodos
+
+    protected void imprimir() {
+        String dados =
+                "\nNome: " + this.nome +
+                "\nEmail: " + this.email;
+
+        System.out.print(dados);
+    }
+
     // Getters e Setters
 
     public String getNome() {

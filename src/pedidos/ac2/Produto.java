@@ -21,6 +21,17 @@ public class Produto {
         this.fornecedor = fornecedor;
     }
 
+    // Metodos
+
+    public void imprimir() {
+        System.out.printf(
+                "\nNome: %s" +
+                "\nDescricao: %s" +
+                "\nValor unitario: %.3f" +
+                "\nFornecedor: %s\n",
+                this.nome, this.descricao, this.valorUnitario, this.fornecedor.getNome());
+    }
+
     // Getters e Setters
 
     public String getNome() {

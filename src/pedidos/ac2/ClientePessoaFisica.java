@@ -1,25 +1,31 @@
 package pedidos.ac2;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ClientePessoaFisica extends Cliente {
     private String cpf;
     private int qtdMaxParcelamentoPedido;
-    private List<Pedido> pedidos;
 
     // Constructors
 
-    public ClientePessoaFisica(String cpf, int qtdMaxParcelamentoPedido, List<Pedido> pedidos) {
+    public ClientePessoaFisica(String cpf, int qtdMaxParcelamentoPedido) {
         this.cpf = cpf;
         this.qtdMaxParcelamentoPedido = qtdMaxParcelamentoPedido;
-        this.pedidos = pedidos;
     }
 
     public ClientePessoaFisica() {
         this.cpf = "";
         this.qtdMaxParcelamentoPedido = 0;
-        this.pedidos = new ArrayList<Pedido>();
+    }
+
+    // Metodos
+
+    @Override
+    protected void imprimir() {
+        super.imprimir();
+        String dados =
+                "\nCPF: " + this.cpf +
+                "\nQuantidade maxima de parcelamento de pedidos: " + this.qtdMaxParcelamentoPedido;
+
+        System.out.println(dados);
     }
 
     // Getters e Setters
@@ -38,13 +44,5 @@ public class ClientePessoaFisica extends Cliente {
 
     public void setQtdMaxParcelamentoPedido(int qtdMaxParcelamentoPedido) {
         this.qtdMaxParcelamentoPedido = qtdMaxParcelamentoPedido;
-    }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
     }
 }

@@ -27,14 +27,17 @@ public class SistemaPrincipal {
                 "Busca de um pedido pelo numero",
                 "Listagem de todos os pedidos pagos",
                 "Busca de um produto pelo nome",
-                "Calculo do total dos pedidos em aberto (nao pagos)"
+                "Calculo do total dos pedidos em aberto (nao pagos)",
+                "Voltar"
         };
 
         List<Cliente> clientes = new ArrayList<>();
         List<Fornecedor> fornecedores = new ArrayList<>();
         List<Produto> produtos = new ArrayList<>();
+        List<Pedido> pedidos = new ArrayList<>();
 
         int opcaoSelecionada;
+        int opcaoRelatorio;
 
         do {
             imprimirMenu(opcoesDoMenuPrincipal, "Menu Principal");
@@ -48,23 +51,84 @@ public class SistemaPrincipal {
                     cadastrarListaFornecedores(fornecedores);
                     break;
                 case 3:
-
+                    try {
+                        cadastrarListaProdutos(produtos, fornecedores);
+                    } catch (Exception error) {
+                        System.out.println("\n" + error.getMessage());
+                    }
                     break;
                 case 4:
+                    // Efetuar pedido
                     break;
                 case 5:
+                    // Baixa de pagamento de um pedido
                     break;
                 case 6:
+                    // Relatorios
+                    do {
+                        imprimirMenu(opcoesMenuRelatorio, "Relatorios");
+                        opcaoRelatorio = receberOpcaoInt();
+
+                        switch (opcaoRelatorio) {
+                            case 1:
+                                imprimirLinhaComTitulo("Lista de clientes");
+
+                                if (clientes.isEmpty())
+                                    System.out.println("\nNenhum cliente cadastrado");
+                                else
+                                    clientes.forEach(Cliente::imprimir);
+                                break;
+                            case 2:
+                                imprimirLinhaComTitulo("Lista de Fornecedores");
+
+                                if (fornecedores.isEmpty())
+                                    System.out.println("\nNenhum fornecedor cadastrado");
+                                else
+                                    fornecedores.forEach(Fornecedor::imprimir);
+                                break;
+                            case 3:
+                                imprimirLinhaComTitulo("Lista de Produtos");
+
+                                if (produtos.isEmpty())
+                                    System.out.println("\nNenhum produto cadastrado");
+                                else
+                                    produtos.forEach(Produto::imprimir);
+                                break;
+                            case 4:
+                                imprimirLinhaComTitulo("Lista de Pedidos");
+                                break;
+                            case 5:
+                                imprimirLinhaComTitulo("Lista pedidos por data");
+                                break;
+                            case 6:
+                                imprimirLinhaComTitulo("Buscar pedido pelo numero");
+                                break;
+                            case 7:
+                                imprimirLinhaComTitulo("Lista de pedidos pagos");
+                                break;
+                            case 8:
+                                imprimirLinhaComTitulo("Busca de produto pelo nome");
+                                break;
+                            case 9:
+                                imprimirLinhaComTitulo("Calculo do total de pedidos em aberto (não pagos)");
+                                break;
+                            case 10:
+                                System.out.println("\nSaindo do menu de relatorio...");
+                                break;
+                            default:
+                                System.out.println("\nSelecione uma opcao valida de relatorio");
+                        }
+                    } while (opcaoRelatorio != opcoesMenuRelatorio.length);
                     break;
                 case 7:
+                    System.out.println("\nFinalizando o programa...");
                     break;
                 default:
-                    System.out.println("\nSelecione uma opcao valida");
+                    System.out.println("\nSelecione uma opcao valida.");
             }
         } while (opcaoSelecionada != opcoesDoMenuPrincipal.length);
-
-        System.out.println("\nFinalizando o programa...");
     }
+
 
     private static void cadastrarListaClientes(List<Cliente> clientes) {
         boolean continuarCadastrando;
@@ -143,6 +207,60 @@ public class SistemaPrincipal {
         fornecedorAtual.setCnpj(inputScanner.next());
 
         return fornecedorAtual;
+    }
+
+    private static void cadastrarListaProdutos(List<Produto> produtos, List<Fornecedor> fornecedores) throws Exception {
+        boolean continuarCadastrando;
+        char opcaoDigitada;
+
+        imprimirLinhaComTitulo("Cadastro de Produtos");
+
+        if (fornecedores.isEmpty())
+            throw new Exception("Por favor, cadastre ao menos 1 fornecedor para cadastrar os produtos");
+
+        do {
+            produtos.add(cadastrarProduto(fornecedores));
+
+            System.out.print("\nDeseja continuar cadastrando ? (S/n): ");
+            opcaoDigitada = inputScanner.next().charAt(0);
+            continuarCadastrando = opcaoDigitada != 'n' && opcaoDigitada != 'N';
+
+        } while (continuarCadastrando);
+    }
+
+    private static Produto cadastrarProduto(List<Fornecedor> fornecedores) {
+        String cnpjProcurado;
+        Fornecedor fornecedorEncontrado;
+        Produto produtoAtual = new Produto();
+
+        System.out.print("\nCADASTRO - Nome do produto: ");
+        produtoAtual.setNome(inputScanner.next());
+
+        System.out.print("CADASTRO - Descrição do produto: ");
+        produtoAtual.setDescricao(inputScanner.next());
+
+        System.out.print("CADASTRO - Valor unitário do produto: ");
+        produtoAtual.setValorUnitario(inputScanner.nextFloat());
+
+        System.out.println("Fornecedores disponiveis: ");
+        fornecedores.forEach(Fornecedor::imprimir);
+
+        do {
+            System.out.print("\nCADASTRO - Selecione um fornecedor pelo CNPJ: ");
+            cnpjProcurado = inputScanner.next();
+
+            for (Fornecedor fornecedor : fornecedores) {
+                if (fornecedor.getCnpj().equalsIgnoreCase(cnpjProcurado)) {
+                    produtoAtual.setFornecedor(fornecedor);
+                    break;
+                }
+            }
+
+            if (produtoAtual.getFornecedor() == null)
+                System.out.println("\nDigite um CNPJ Valido...");
+        } while (produtoAtual.getFornecedor() == null);
+
+        return produtoAtual;
     }
 
     private static void imprimirMenu(String[] menu, String tituloMenu) {

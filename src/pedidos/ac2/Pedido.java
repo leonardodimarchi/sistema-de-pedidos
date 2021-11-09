@@ -36,6 +36,21 @@ public class Pedido {
         this.estaPago = estaPago;
     }
 
+    // Metodos
+
+    public void imprimir() {
+        String dados =
+                "\nIdentificador: " + this.identificador +
+                "\nData: " + this.data.toString() +
+                "\nValor total: " + this.valorTotal +
+                "\nEsta pago: " + (this.estaPago ? "Sim" : "Nao") +
+                "\nCliente: " + this.cliente.getNome() +
+                "\nItens do pedido: ";
+
+        System.out.print(dados);
+        this.itensDePedido.forEach(ItemDePedido::imprimir);
+    }
+
     // Getters e Setters
 
     public List<ItemDePedido> getItensDePedido() {
