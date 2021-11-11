@@ -22,8 +22,8 @@ public class ClientePessoaJuridica extends Cliente {
     protected void imprimir() {
         super.imprimir();
         String dados =
-                "\nCPF: " + this.cnpj +
-                "\nQuantidade maxima de parcelamento de pedidos: " + this.prazoMaxFaturamentoPedido;
+                "\nCNPJ: " + this.cnpj +
+                "\nPrazo maximo de faturamento de pedidos: " + this.prazoMaxFaturamentoPedido;
 
         System.out.println(dados);
     }

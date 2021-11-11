@@ -58,7 +58,12 @@ public class SistemaPrincipal {
                     }
                     break;
                 case 4:
-                    // Efetuar pedido
+                    try {
+                        Pedido novoPedido = efetuarPedidoComIdentificador(pedidos.size() + 1, clientes, produtos);
+                        pedidos.add(novoPedido);
+                    } catch (Exception error) {
+                        System.out.println("\n" + error.getMessage());
+                    }
                     break;
                 case 5:
                     // Baixa de pagamento de um pedido
@@ -96,6 +101,14 @@ public class SistemaPrincipal {
                                 break;
                             case 4:
                                 imprimirLinhaComTitulo("Lista de Pedidos");
+
+                                if (pedidos.isEmpty())
+                                    System.out.println("\nNenhum pedido cadastrado");
+                                else
+                                    pedidos.forEach(pedido -> {
+                                        pedido.imprimir();
+                                        imprimirLinha();
+                                    });
                                 break;
                             case 5:
                                 imprimirLinhaComTitulo("Lista pedidos por data");
@@ -129,6 +142,99 @@ public class SistemaPrincipal {
         } while (opcaoSelecionada != opcoesDoMenuPrincipal.length);
     }
 
+    private static Pedido efetuarPedidoComIdentificador(int identificador, List<Cliente> clientes, List<Produto> produtos) throws Exception {
+        Pedido novoPedido = new Pedido(identificador);
+        String nomeClienteProcurado;
+
+        boolean continuarCadastrando;
+        char opcaoDigitada;
+        float valorTotalDoPedido = 0;
+
+        imprimirLinhaComTitulo("Efetuar pedido");
+
+        if (clientes.isEmpty())
+            throw new Exception("Por favor, cadastre ao menos 1 cliente para efetuar o pedido");
+
+        if (produtos.isEmpty())
+            throw new Exception("Por favor, cadastre ao menos 1 produto para efetuar o pedido");
+
+        System.out.println("Lista de clientes disponiveis");
+        clientes.forEach(Cliente::imprimir);
+
+        do {
+            System.out.print("\nSelecione o cliente (a partir do CPF/CNPJ) para realizar o pedido: ");
+            inputScanner.nextLine();
+            nomeClienteProcurado = inputScanner.nextLine();
+
+
+            for (Cliente cliente : clientes) {
+                String cpfOuCnpjDoCliente;
+
+                if (cliente instanceof ClientePessoaFisica)
+                    cpfOuCnpjDoCliente = ((ClientePessoaFisica) cliente).getCpf();
+                else
+                    cpfOuCnpjDoCliente = ((ClientePessoaJuridica) cliente).getCnpj();
+
+                if (cpfOuCnpjDoCliente.equalsIgnoreCase(nomeClienteProcurado)) {
+                    novoPedido.setCliente(cliente);
+                    break;
+                }
+            }
+
+            if (novoPedido.getCliente() == null)
+                System.out.println("\nDigite um CPF/CNPJ Valido...");
+        } while (novoPedido.getCliente() == null);
+
+        System.out.println("\nAdicionando itens ao pedido");
+        do {
+            List<ItemDePedido> itensAtuais = novoPedido.getItensDePedido();
+
+            itensAtuais.add(cadastrarItemDePedido(produtos));
+
+            System.out.print("\nDeseja continuar adicionando itens ? (S/n): ");
+            opcaoDigitada = inputScanner.next().charAt(0);
+            continuarCadastrando = opcaoDigitada != 'n' && opcaoDigitada != 'N';
+            inputScanner.nextLine();
+
+        } while (continuarCadastrando);
+
+        System.out.println("\nPedido efetuado com sucesso");
+
+        for (ItemDePedido item : novoPedido.getItensDePedido())
+            valorTotalDoPedido += item.getValorTotal();
+
+        novoPedido.setValorTotal(valorTotalDoPedido);
+        return novoPedido;
+    }
+
+    private static ItemDePedido cadastrarItemDePedido(List<Produto> produtos) {
+        ItemDePedido novoItemDePedido = new ItemDePedido();
+        String nomeProdutoProcurado;
+
+        System.out.println("\nLista de produtos disponiveis");
+        produtos.forEach(Produto::imprimir);
+
+        do {
+            System.out.print("\nSelecione o produto (a partir do NOME) para realizar o pedido: ");
+            nomeProdutoProcurado = inputScanner.nextLine();
+
+            for (Produto produto : produtos) {
+                if (produto.getNome().equalsIgnoreCase(nomeProdutoProcurado)) {
+                    novoItemDePedido.setProduto(produto);
+                    break;
+                }
+            }
+
+            if (novoItemDePedido.getProduto() == null)
+                System.out.println("\nDigite um NOME Valido...");
+        } while (novoItemDePedido.getProduto() == null);
+
+        System.out.print("Quantidade: ");
+        novoItemDePedido.setQuantidade(inputScanner.nextInt());
+        novoItemDePedido.setValorTotal(novoItemDePedido.getProduto().getValorUnitario() * novoItemDePedido.getQuantidade());
+
+        return novoItemDePedido;
+    }
 
     private static void cadastrarListaClientes(List<Cliente> clientes) {
         boolean continuarCadastrando;
@@ -201,7 +307,8 @@ public class SistemaPrincipal {
         Fornecedor fornecedorAtual = new Fornecedor();
 
         System.out.print("\nNOME do Fornecedor: ");
-        fornecedorAtual.setNome(inputScanner.next());
+        inputScanner.nextLine();
+        fornecedorAtual.setNome(inputScanner.nextLine());
 
         System.out.print("CNPJ do Fornecedor: ");
         fornecedorAtual.setCnpj(inputScanner.next());
@@ -230,19 +337,19 @@ public class SistemaPrincipal {
 
     private static Produto cadastrarProduto(List<Fornecedor> fornecedores) {
         String cnpjProcurado;
-        Fornecedor fornecedorEncontrado;
         Produto produtoAtual = new Produto();
 
         System.out.print("\nCADASTRO - Nome do produto: ");
-        produtoAtual.setNome(inputScanner.next());
+        inputScanner.nextLine();
+        produtoAtual.setNome(inputScanner.nextLine());
 
         System.out.print("CADASTRO - Descrição do produto: ");
-        produtoAtual.setDescricao(inputScanner.next());
+        produtoAtual.setDescricao(inputScanner.nextLine());
 
         System.out.print("CADASTRO - Valor unitário do produto: ");
         produtoAtual.setValorUnitario(inputScanner.nextFloat());
 
-        System.out.println("Fornecedores disponiveis: ");
+        System.out.println("\nFornecedores disponiveis ");
         fornecedores.forEach(Fornecedor::imprimir);
 
         do {

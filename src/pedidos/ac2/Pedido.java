@@ -1,12 +1,14 @@
 package pedidos.ac2;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Pedido {
     private List<ItemDePedido> itensDePedido;
-    private String identificador;
+    private int identificador;
     private Date data;
     private float valorTotal;
     private Cliente cliente;
@@ -16,14 +18,14 @@ public class Pedido {
 
     public Pedido() {
         this.itensDePedido = new ArrayList<>();
-        this.identificador = "";
+        this.identificador = 0;
         this.data = new Date();
         this.valorTotal = 0;
         this.estaPago = false;
     }
 
     public Pedido(List<ItemDePedido> itensDePedido,
-                  String identificador,
+                  int identificador,
                   Date data,
                   float valorTotal,
                   Cliente cliente,
@@ -36,16 +38,26 @@ public class Pedido {
         this.estaPago = estaPago;
     }
 
+    public Pedido(int identificador) {
+        this.itensDePedido = new ArrayList<>();
+        this.identificador = identificador;
+        this.data = new Date();
+        this.valorTotal = 0;
+        this.estaPago = false;
+    }
+
     // Metodos
 
     public void imprimir() {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+
         String dados =
                 "\nIdentificador: " + this.identificador +
-                "\nData: " + this.data.toString() +
+                "\nData: " + dateFormat.format(this.data) +
                 "\nValor total: " + this.valorTotal +
                 "\nEsta pago: " + (this.estaPago ? "Sim" : "Nao") +
                 "\nCliente: " + this.cliente.getNome() +
-                "\nItens do pedido: ";
+                "\n\nItens do pedido: ";
 
         System.out.print(dados);
         this.itensDePedido.forEach(ItemDePedido::imprimir);
@@ -61,11 +73,11 @@ public class Pedido {
         this.itensDePedido = itensDePedido;
     }
 
-    public String getIdentificador() {
+    public int getIdentificador() {
         return identificador;
     }
 
-    public void setIdentificador(String identificador) {
+    public void setIdentificador(int identificador) {
         this.identificador = identificador;
     }
 

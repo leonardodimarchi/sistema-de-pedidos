@@ -38,6 +38,6 @@ public class Fornecedor {
     }
 
     public void setNome(String nomeFornecedor) {
-        nome = nomeFornecedor;
+        this.nome = nomeFornecedor;
     }
 }
