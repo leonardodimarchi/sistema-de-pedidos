@@ -1,8 +1,10 @@
 package pedidos.ac2;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SistemaPrincipal {
     private static final Scanner inputScanner = new Scanner(System.in);
@@ -69,7 +71,6 @@ public class SistemaPrincipal {
                     // Baixa de pagamento de um pedido
                     break;
                 case 6:
-                    // Relatorios
                     do {
                         imprimirMenu(opcoesMenuRelatorio, "Relatorios");
                         opcaoRelatorio = receberOpcaoInt();
@@ -112,6 +113,39 @@ public class SistemaPrincipal {
                                 break;
                             case 5:
                                 imprimirLinhaComTitulo("Lista pedidos por data");
+                                if (pedidos.isEmpty()) {
+                                    System.out.println("\nNenhum pedido cadastrado");
+                                    break;
+                                }
+
+                                try {
+                                    System.out.print("\nDigite a data inicial (dd/MM/yyyy): ");
+                                    String dataInicialDigitada = inputScanner.next();
+
+                                    System.out.print("\nDigite a data final (dd/MM/yyyy): ");
+                                    String dataFinalDigitada = inputScanner.next();
+
+                                    Date dataInicial = new SimpleDateFormat("dd/MM/yyyy").parse(dataInicialDigitada);
+                                    Date dataFinal = new SimpleDateFormat("dd/MM/yyyy").parse(dataFinalDigitada);
+
+                                    DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+
+                                    List<Pedido> listaFiltrada = pedidos.stream()
+                                            .filter(pedido ->  pedido.getData().after(dataInicial) && pedido.getData().before(dataFinal))
+                                            .collect(Collectors.toList());
+
+                                    if (listaFiltrada.isEmpty())
+                                        System.out.println("\nNenhum pedido encontrado para o intervalo de datas: " +
+                                                dateFormat.format(dataInicial) + " e " + dateFormat.format(dataFinal));
+                                    else
+                                        listaFiltrada.forEach(Pedido::imprimir);
+
+                                } catch (ParseException errorParsing) {
+                                    System.out.println("\nPor favor, utilizar o formato especificado...");
+                                } catch (Exception error) {
+                                    System.out.println("\nOcorreu um erro inesperado... Tente novamente.");
+                                }
+
                                 break;
                             case 6:
                                 imprimirLinhaComTitulo("Buscar pedido pelo numero");
