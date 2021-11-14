@@ -213,6 +213,28 @@ public class SistemaPrincipal {
                                 break;
                             case 9:
                                 imprimirLinhaComTitulo("Calculo do total de pedidos em aberto (não pagos)");
+
+                                if (pedidos.isEmpty()) {
+                                    System.out.println("\nNenhum pedido cadastrado");
+                                    break;
+                                }
+
+                                float valorTotalEmAberto = 0;
+
+                                List<Pedido> pedidosEmAberto = pedidos.stream()
+                                        .filter(pedido -> !pedido.estaPago())
+                                        .collect(Collectors.toList());
+
+                                if (pedidosEmAberto.isEmpty()) {
+                                    System.out.println("\nNenhum pedido em aberto");
+                                    break;
+                                }
+
+                                for (Pedido pedido : pedidosEmAberto)
+                                    valorTotalEmAberto += pedido.getValorTotal();
+
+                                System.out.println("\nValor total de pedidos em aberto: " + valorTotalEmAberto);
+
                                 break;
                             case 10:
                                 System.out.println("\nSaindo do menu de relatorio...");
@@ -231,9 +253,9 @@ public class SistemaPrincipal {
         } while (opcaoSelecionada != opcoesDoMenuPrincipal.length);
     }
 
-//    private static void baixaDePagamento() {
-//
-//    }
+    private static void baixaDePagamento() {
+
+    }
 
     private static Pedido efetuarPedidoComIdentificador(int identificador, List<Cliente> clientes, List<Produto> produtos) throws Exception {
         Pedido novoPedido = new Pedido(identificador);
