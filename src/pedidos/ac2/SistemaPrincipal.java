@@ -195,11 +195,10 @@ public class SistemaPrincipal {
         System.out.println("Lista de clientes disponiveis");
         clientes.forEach(Cliente::imprimir);
 
+        inputScanner.nextLine();
         do {
             System.out.print("\nSelecione o cliente (a partir do CPF/CNPJ) para realizar o pedido: ");
-            inputScanner.nextLine();
             nomeClienteProcurado = inputScanner.nextLine();
-
 
             for (Cliente cliente : clientes) {
                 String cpfOuCnpjDoCliente;
