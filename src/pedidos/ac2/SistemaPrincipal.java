@@ -68,7 +68,7 @@ public class SistemaPrincipal {
                     }
                     break;
                 case 5:
-                    // Baixa de pagamento de um pedido
+
                     break;
                 case 6:
                     do {
@@ -149,12 +149,67 @@ public class SistemaPrincipal {
                                 break;
                             case 6:
                                 imprimirLinhaComTitulo("Buscar pedido pelo numero");
+
+                                if (pedidos.isEmpty()) {
+                                    System.out.println("\nNenhum pedido cadastrado");
+                                    break;
+                                }
+
+                                System.out.print("\nDigite o identificador desejado: ");
+                                int identificadorBuscado = inputScanner.nextInt();
+
+                                Pedido pedidoSelecionado = null;
+
+                                for (Pedido pedido : pedidos) {
+                                    if (pedido.getIdentificador() == identificadorBuscado)
+                                        pedidoSelecionado = pedido;
+                                }
+
+                                if (pedidoSelecionado == null)
+                                    System.out.println("\nNenhum pedido encontrado com esse identificador");
+                                else
+                                    pedidoSelecionado.imprimir();
+
                                 break;
                             case 7:
                                 imprimirLinhaComTitulo("Lista de pedidos pagos");
+
+                                if (pedidos.isEmpty()) {
+                                    System.out.println("\nNenhum pedido cadastrado");
+                                    break;
+                                }
+
+                                List<Pedido> pedidosPagos = pedidos.stream()
+                                        .filter(Pedido::estaPago)
+                                        .collect(Collectors.toList());
+
+                                if (pedidosPagos.isEmpty())
+                                    System.out.println("\nNenhum pedido esta pago no momento");
+                                else
+                                    pedidosPagos.forEach(Pedido::imprimir);
+
                                 break;
                             case 8:
                                 imprimirLinhaComTitulo("Busca de produto pelo nome");
+
+                                if (produtos.isEmpty()) {
+                                    System.out.println("\nNenhum produto cadastrado");
+                                    break;
+                                }
+
+                                inputScanner.nextLine();
+                                System.out.print("\nDigite o nome do produto: ");
+                                String nomeProcurado = inputScanner.nextLine();
+
+                                List<Produto> produtosEncontrados = produtos.stream()
+                                        .filter(produto -> produto.getNome().toLowerCase().contains(nomeProcurado.toLowerCase()))
+                                        .collect(Collectors.toList());
+
+                                if (produtosEncontrados.isEmpty())
+                                    System.out.println("\nNão foram encontrados produtos contendo este nome");
+                                else
+                                    produtosEncontrados.forEach(Produto::imprimir);
+
                                 break;
                             case 9:
                                 imprimirLinhaComTitulo("Calculo do total de pedidos em aberto (não pagos)");
@@ -175,6 +230,10 @@ public class SistemaPrincipal {
             }
         } while (opcaoSelecionada != opcoesDoMenuPrincipal.length);
     }
+
+//    private static void baixaDePagamento() {
+//
+//    }
 
     private static Pedido efetuarPedidoComIdentificador(int identificador, List<Cliente> clientes, List<Produto> produtos) throws Exception {
         Pedido novoPedido = new Pedido(identificador);
