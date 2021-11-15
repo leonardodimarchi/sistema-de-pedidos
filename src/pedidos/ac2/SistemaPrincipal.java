@@ -83,7 +83,7 @@ public class SistemaPrincipal {
                     } while (opcaoRelatorio != opcoesMenuRelatorio.length);
                     break;
                 case 7:
-                    System.out.println("\nFinalizando o programa...");
+                    System.out.println("\n\nSistema encerrado!");
                     break;
                 default:
                     System.out.println("\nSelecione uma opcao valida.");
@@ -217,13 +217,13 @@ public class SistemaPrincipal {
                         .collect(Collectors.toList());
 
                 if (produtosEncontrados.isEmpty())
-                    System.out.println("\nNão foram encontrados produtos contendo este nome");
+                    System.out.println("\nNao foram encontrados produtos contendo este nome");
                 else
                     produtosEncontrados.forEach(Produto::imprimir);
 
                 break;
             case 9:
-                imprimirLinhaComTitulo("Calculo do total de pedidos em aberto (não pagos)");
+                imprimirLinhaComTitulo("Calculo do total de pedidos em aberto (nao pagos)");
 
                 if (pedidos.isEmpty()) {
                     System.out.println("\nNenhum pedido cadastrado");
@@ -280,6 +280,9 @@ public class SistemaPrincipal {
                 .filter(pedido -> !pedido.estaPago())
                 .collect(Collectors.toList());
 
+        if (pedidosEmAberto.isEmpty())
+        	throw new Exception("Nenhum pedido esta em aberto");
+        	
         pedidosEmAberto.forEach(pedido -> {
             pedido.imprimir();
             imprimirLinha();
@@ -370,7 +373,7 @@ public class SistemaPrincipal {
         produtos.forEach(Produto::imprimir);
 
         do {
-            System.out.print("\nSelecione o produto (a partir do NOME) para realizar o pedido: ");
+            System.out.print("\nSelecione o produto (a partir do nome) para realizar o pedido: ");
             nomeProdutoProcurado = inputScanner.nextLine();
 
             for (Produto produto : produtos) {
@@ -381,7 +384,7 @@ public class SistemaPrincipal {
             }
 
             if (novoItemDePedido.getProduto() == null)
-                System.out.println("\nDigite um NOME Valido...");
+                System.out.println("\nDigite um nome Valido...");
         } while (novoItemDePedido.getProduto() == null);
 
         System.out.print("Quantidade: ");
@@ -498,10 +501,10 @@ public class SistemaPrincipal {
         inputScanner.nextLine();
         produtoAtual.setNome(inputScanner.nextLine());
 
-        System.out.print("CADASTRO - Descrição do produto: ");
+        System.out.print("CADASTRO - Descricao do produto: ");
         produtoAtual.setDescricao(inputScanner.nextLine());
 
-        System.out.print("CADASTRO - Valor unitário do produto: ");
+        System.out.print("CADASTRO - Valor unitario do produto: ");
         produtoAtual.setValorUnitario(inputScanner.nextFloat());
 
         System.out.println("\nFornecedores disponiveis ");

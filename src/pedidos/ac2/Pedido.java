@@ -57,7 +57,7 @@ public class Pedido {
                 "\nValor total: " + this.valorTotal +
                 "\nEsta pago: " + (this.estaPago ? "Sim" : "Nao") +
                 "\nCliente: " + this.cliente.getNome() +
-                "\n\nItens do pedido: ";
+                "\n\nListagem dos itens pedidos";
 
         System.out.print(dados);
         this.itensDePedido.forEach(ItemDePedido::imprimir);
