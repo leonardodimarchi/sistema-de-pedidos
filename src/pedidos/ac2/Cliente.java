@@ -1,20 +1,8 @@
 package pedidos.ac2;
 
-public class Cliente {
+public abstract class Cliente {
     private String nome;
     private String email;
-
-    // Constructors
-
-    public Cliente(String nome, String email) {
-        this.nome = nome;
-        this.email = email;
-    }
-
-    public Cliente() {
-        this.nome = "";
-        this.email = "";
-    }
 
     // Metodos
 
