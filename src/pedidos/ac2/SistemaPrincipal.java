@@ -150,11 +150,13 @@ public class SistemaPrincipal {
                             .filter(pedido ->  pedido.getData().after(dataInicial) && pedido.getData().before(dataFinal))
                             .collect(Collectors.toList());
 
-                    if (listaFiltrada.isEmpty())
+                    if (listaFiltrada.isEmpty()) {
                         System.out.println("\nNenhum pedido encontrado para o intervalo de datas: " +
                                 dateFormat.format(dataInicial) + " e " + dateFormat.format(dataFinal));
+                    	System.out.println("\nOBS: as datas iniciam a contagem de 00:00 pm");
+                    }
                     else
-                        listaFiltrada.forEach(Pedido::imprimir);
+                    	listaFiltrada.forEach(Pedido::imprimir);
 
                 } catch (ParseException errorParsing) {
                     System.out.println("\nPor favor, utilizar o formato especificado...");
